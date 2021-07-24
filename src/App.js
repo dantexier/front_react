@@ -1,23 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import {cleanup} from "@testing-library/react";
+import React, { useEffect, useState } from "react";
 
 function App() {
+  const url = 'https://jsonplaceholder.typicode.com/todos'
+  const [todos, setTodos] = useState()
+  const fetchApi = async () =>{
+    const response = await fetch (url)
+    console.log(response.status)
+    const responseJSON = await response.json()
+    setTodos (responseJSON)
+    console.log(responseJSON)
+  }
+  useEffect(() => {
+    fetchApi()
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="App-HI">
+          Hola Mundo en Herramientas de IS
+          <ul>
+            {!todos?'Cargando...':
+                todos.map((todo,index)=>{
+                  return<li key={index}>{todo.title}</li>
+                    }
+
+                )
+
+            }
+          </ul>
+      </div>
     </div>
   );
 }
